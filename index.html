@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#5b5bf0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="StudyHub"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/icon-192.png"><link rel="icon" href="./icon-192.png"><title>StudyHub – CBSE/ICSE, JEE & NEET</title>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#5b5bf0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="StudyHub"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-192.png"><link rel="icon" href="icons/icon-192.png"><title>StudyHub – CBSE/ICSE, JEE & NEET</title>
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--tx:#1b2140;--mu:#6b7194;--pr:#5b5bf0;--pr2:#8a5cf6;--ok:#16a870;--bad:#e5484d;--bd:#e3e6f3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0f1224;--card:#1a1e38;--tx:#eceffd;--mu:#9aa0c6;--bd:#2a2f52}}
@@ -46,6 +46,17 @@ html,body{-webkit-text-size-adjust:100%;overflow-x:hidden}body{min-height:100dvh
 #ov.on{display:flex}#mb{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:18px;max-width:360px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
 #mb h3{margin:0 0 8px}#mb p{margin:0 0 12px;color:var(--tx)}#mb .row{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
 #mb input{margin:0 0 4px}
+
+.spinner{width:34px;height:34px;border:3px solid var(--bd);border-top-color:var(--pr);border-radius:50%;margin:0 auto 10px;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.typing{display:inline-flex;gap:4px;align-items:center;height:1em}
+.typing i{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.3;animation:blk 1.2s infinite;display:inline-block}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes blk{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.ldwrap{text-align:center;padding:26px 14px}
+.ldbar{height:6px;background:var(--bd);border-radius:9px;overflow:hidden;margin:14px 0 6px;max-width:260px;margin-left:auto;margin-right:auto}
+.ldbar i{display:block;height:100%;width:40%;background:linear-gradient(90deg,var(--pr),var(--pr2));border-radius:9px;animation:ldmove 1.1s ease-in-out infinite}
+@keyframes ldmove{0%{margin-left:-40%}50%{margin-left:70%}100%{margin-left:-40%}}
 @media print{header,nav,.np{display:none!important}body{background:#fff;color:#000}.card{border:0}}
 </style></head><body>
 <header><div><h1>📚 StudyHub</h1><small id="sub"></small></div><div><button id="ins" class="btn g s" style="display:none;color:#fff;border-color:#fff;margin-right:6px" onclick="doInstall()">⬇ Install</button><button class="btn g s" style="color:#fff;border-color:#fff" onclick="tog()">🌓</button></div></header>
@@ -110,7 +121,7 @@ let sel={sub:null,ch:null,mode:'hard'};
 function picker(kind){const subs=subjects();if(!sel.sub||!subs.includes(sel.sub))sel.sub=subs[0];const chs=chapters(sel.sub);if(chs&&!chs.includes(sel.ch))sel.ch=chs[0];
  return`<div class="card"><b>Subject</b><div>${subs.map(s=>`<span class="chip ${sel.sub==s?'on':''}" onclick="sel.sub='${s}';sel.ch=null;render()">${s}</span>`).join('')}</div>
  ${chs?`<b>Chapter</b><select onchange="sel.ch=this.value;render()">${chs.map(c=>`<option ${c==sel.ch?'selected':''}>${c}</option>`).join('')}</select>`:
- `<p class="mu">Chapter list for this subject isn't loaded yet.</p><button class="btn s" ${online()?'':'disabled'} onclick="this.textContent='Loading…';aiChapters(sel.sub).then(render).catch(()=>{popup('Could not load. Try again online.');render()})">Load chapters with AI</button> ${online()?'':'<span class=mu>(needs internet)</span>'}`}</div>`}
+ `<p class="mu">Chapter list for this subject isn't loaded yet.</p><button class="btn s" ${online()?'':'disabled'} onclick="loading(['📚 Fetching '+sel.sub+' chapters…','🗂 Organising syllabus…']);aiChapters(sel.sub).then(()=>{stopLoading();render()}).catch(e=>{stopLoading();popup((e&&(e.message||e.code))||'Unknown error','Could not load');render()})">Load chapters with AI</button> ${online()?'':'<span class=mu>(needs internet)</span>'}`}</div>`}
 function tests(){if(T)return runTest();
  const ch=chapters(sel.sub||subjects()[0]);const papers=[...Array(12)].map((_,i)=>i+1);
  $('#app').innerHTML=picker()+(sel.ch?`<div class="card"><b>Question quality</b><div><span class="chip ${sel.mode=='hard'?'on':''}" onclick="sel.mode='hard';render()">Comprehensive (25 Qs)</span><span class="chip ${sel.mode=='med'?'on':''}" onclick="sel.mode='med';render()">Daily practice (15 Qs)</span></div>
@@ -120,9 +131,10 @@ const ck=p=>[S.board,S.cls,S.track,sel.sub,sel.ch,sel.mode,p].join('|');
 async function start(p,fresh){const k=ck(p),n=sel.mode=='hard'?25:15;let qs=S.cache[k];
  if(!qs||fresh){
   if(!online()){popup('You need an internet connection to generate this paper. Connect and try again.','No internet');return render()}
-  $('#app').innerHTML='<div class="card">🤖 Generating questions… (10–40s)</div>';
+  loading(['🤖 Contacting Gemini…','📝 Writing '+n+' questions…','🔎 Checking each answer…','✨ Polishing explanations…','⏳ Almost done…']);
   try{qs=await genQs(sel.sub,sel.ch,n,sel.mode,p);S.cache[k]=qs;save()}
-  catch(e){popup('Could not generate this paper. Check your connection and try again.','Generation failed');return render()}
+  catch(e){stopLoading();popup((e&&(e.message||e.code))||'Unknown error','Generation failed');return render()}
+  stopLoading();
  }
  T={p,k,qs,i:0,ans:[],t0:Date.now(),secs:n*90,sub:sel.sub,ch:sel.ch};clearInterval(tmr);tmr=setInterval(tick,1000);render()}
 function tick(){if(!T||T.done)return clearInterval(tmr);const l=T.secs-Math.floor((Date.now()-T.t0)/1000);const e=$('#tm');if(e)e.textContent=fmt(Math.max(l,0));if(l<=0)finish()}
@@ -183,6 +195,13 @@ const popup=(body,title='StudyHub')=>showModal({title,body,okText:'OK'});
 const confirmPopup=(body,title='Please confirm')=>showModal({title,body,okText:'Yes',cancelText:'Cancel'});
 const promptPopup=(body,placeholder='',type='text')=>showModal({title:'StudyHub',body,input:{placeholder,type},okText:'Continue',cancelText:'Cancel'});
 
+
+let ldT=null;
+function loading(msgs){let i=0;const t0=Date.now();clearInterval(ldT);
+ $('#app').innerHTML=`<div class="card ldwrap"><div class="spinner"></div><p id="ldm" style="font-weight:600">${esc(msgs[0])}</p><div class="ldbar"><i></i></div><p class="mu" id="ldt">0s elapsed</p></div>`;
+ ldT=setInterval(()=>{const el=$('#ldt');if(el)el.textContent=Math.floor((Date.now()-t0)/1000)+'s elapsed';i=(i+1)%msgs.length;const m=$('#ldm');if(m)m.textContent=msgs[i]},1500)}
+function stopLoading(){clearInterval(ldT);ldT=null}
+
 const esc=s=>String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 /* ---------- Notes ---------- */
 function notes(){const k=[S.board,S.cls,S.track,sel.sub,sel.ch].join('|'),n=S.notes[k];
@@ -193,7 +212,7 @@ function notes(){const k=[S.board,S.cls,S.track,sel.sub,sel.ch].join('|'),n=S.no
  <h4>Important illustration</h4><p>${M(n.example)}</p>
  ${n.svg?`<h4>Diagram</h4><div style="max-width:420px;background:#fff;border-radius:10px;padding:6px">${cleanSvg(n.svg)}</div>`:''}</div>`:'')}
 function cleanSvg(s){return String(s).replace(/<script[\s\S]*?<\/script>/gi,'').replace(/\son\w+="[^"]*"/gi,'').replace(/<foreignObject[\s\S]*?<\/foreignObject>/gi,'')}
-async function genNote(k){const b=event.target;b.textContent='Generating…';try{S.notes[k]=await sample.json(`Write revision notes for ${lvl()}, ${sel.sub}, chapter "${sel.ch}". Return JSON: {"summary":"3-5 sentence summary","points":["6-8 key points"],"formulas":["5-8 key formulas/definitions in plain text"],"example":"one important worked illustration with solution","svg":"a small clean labelled <svg viewBox=\\"0 0 400 240\\"> diagram of a key concept, using dark strokes on transparent background (or empty string if not diagram-able)"}. ${MATHNOTE} Put formulas in the formulas array as LaTeX WITHOUT dollar signs (e.g. \\lim_{x\\to0}\\frac{\\sin x}{x}=1). JSON only.`,{cache:false});save()}catch(e){popup('Could not generate. Try again.')}render()}
+async function genNote(k){loading(['📖 Reading the syllabus…','🧠 Summarising key ideas…','📐 Working out formulas…','🎨 Sketching a diagram…','⏳ Almost done…']);try{S.notes[k]=await sample.json(`Write revision notes for ${lvl()}, ${sel.sub}, chapter "${sel.ch}". Return JSON: {"summary":"3-5 sentence summary","points":["6-8 key points"],"formulas":["5-8 key formulas/definitions in plain text"],"example":"one important worked illustration with solution","svg":"a small clean labelled <svg viewBox=\\"0 0 400 240\\"> diagram of a key concept, using dark strokes on transparent background (or empty string if not diagram-able)"}. ${MATHNOTE} Put formulas in the formulas array as LaTeX WITHOUT dollar signs (e.g. \\lim_{x\\to0}\\frac{\\sin x}{x}=1). JSON only.`,{cache:false});save()}catch(e){stopLoading();popup((e&&(e.message||e.code))||'Unknown error','Could not generate');render();return}stopLoading();render()}
 /* ---------- Progress ---------- */
 function apiKeyMasked(){const k=localStorage.getItem('sh_key');if(!k)return 'not set';return k.slice(0,7)+'…'+k.slice(-4)}
 function saveApiKey(){const v=$('#apik').value.trim();if(!v)return popup('Enter a key first, or use Remove key to delete the saved one.');localStorage.setItem('sh_key',v);popup('API key saved on this device.');progress()}
@@ -210,10 +229,10 @@ function progress(){const H=S.hist,tot=H.reduce((a,h)=>a+h.n,0),cor=H.reduce((a,
  ${window.__usesApiKey?`<div class="card"><b>🔑 Google Gemini API key</b><p class="mu">Free key from aistudio.google.com powers question generation, notes and the doubt tutor. Stored only in this browser, never uploaded anywhere by StudyHub.</p><p>Current key: <b>${apiKeyMasked()}</b></p><input id="apik" type="password" placeholder="AIza..." autocomplete="off"><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn s" onclick="saveApiKey()">Save key</button>${localStorage.getItem('sh_key')?'<button class="btn g s" onclick="clearApiKey()">Remove key</button>':''}</div><p class="mu">Get a free key: aistudio.google.com → "Get API key" → Create key (no card needed).</p></div>`:''}
  <button class="btn g s" onclick="resetProgress()">Reset progress</button>`}
 /* ---------- Doubts ---------- */
-function doubt(){$('#app').innerHTML=`<div class="card"><b>🤖 AI Doubt Tutor</b> <span class="mu">for ${S.track==='School'?S.board+' Class '+S.cls:S.track}</span><div class="chat" id="ch">${chat.length?chat.map(m=>`<div class="m ${m.role=='user'?'u':'a'}">${M(m.content)}</div>`).join(''):'<p class="mu">Ask any doubt – concept, numerical, or “explain like I’m 10”.</p>'}</div>
+function doubt(){$('#app').innerHTML=`<div class="card"><b>🤖 AI Doubt Tutor</b> <span class="mu">for ${S.track==='School'?S.board+' Class '+S.cls:S.track}</span><div class="chat" id="ch">${chat.length?chat.map(m=>`<div class="m ${m.role=='user'?'u':'a'}">${m.content==='__TYPING__'?'<span class="typing"><i></i><i></i><i></i></span>':M(m.content)}</div>`).join(''):'<p class="mu">Ask any doubt – concept, numerical, or “explain like I’m 10”.</p>'}</div>
  ${online()?`<textarea id="q" rows="2" placeholder="Type your doubt…"></textarea><button class="btn" onclick="ask()">Ask</button> <button class="btn g" onclick="chat=[];doubt()">Clear</button>`:'<p class="mu">⚠ No internet connection. Doubt-clearing, question generation and notes all require internet — nothing is available offline.</p>'}</div>`;const c=$('#ch');c.scrollTop=c.scrollHeight}
 async function ask(){const t=$('#q').value.trim();if(!t)return;
- chat.push({role:'user',content:t});chat.push({role:'assistant',content:'Thinking…'});doubt();
+ chat.push({role:'user',content:t});chat.push({role:'assistant',content:'__TYPING__'});doubt();
  const convo=chat.slice(0,-1).slice(-9).map(m=>(m.role=='user'?'Student: ':'Tutor: ')+m.content).join('\n\n');
  const prompt=`You are a patient tutor for ${lvl()}. Explain step by step, briefly, then end with one check question.${MATHNOTE}\n\nConversation so far:\n${convo}\n\nTutor:`;
  const upd=x=>{chat[chat.length-1].content=x;const c=$('#ch');if(c&&c.lastChild){c.lastChild.innerHTML=M(x);c.scrollTop=c.scrollHeight}};
