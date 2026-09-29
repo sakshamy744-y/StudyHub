@@ -1,0 +1,233 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#5b5bf0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="StudyHub"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/icon-192.png"><link rel="icon" href="icons/icon-192.png"><title>StudyHub – CBSE/ICSE, JEE & NEET</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--tx:#1b2140;--mu:#6b7194;--pr:#5b5bf0;--pr2:#8a5cf6;--ok:#16a870;--bad:#e5484d;--bd:#e3e6f3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0f1224;--card:#1a1e38;--tx:#eceffd;--mu:#9aa0c6;--bd:#2a2f52}}
+:root[data-theme=dark]{--bg:#0f1224;--card:#1a1e38;--tx:#eceffd;--mu:#9aa0c6;--bd:#2a2f52}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding-bottom:76px}
+header{background:linear-gradient(135deg,var(--pr),var(--pr2));color:#fff;padding:16px 16px 14px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+header h1{margin:0;font-size:19px}header small{opacity:.85;display:block;font-size:12px}
+main{max-width:820px;margin:auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:12px}
+button,select,input,textarea{font:inherit;color:var(--tx)}
+.btn{background:linear-gradient(135deg,var(--pr),var(--pr2));color:#fff;border:0;border-radius:12px;padding:10px 16px;cursor:pointer;font-weight:600}
+.btn.g{background:transparent;color:var(--pr);border:1px solid var(--pr)}.btn.s{padding:6px 10px;font-size:13px}
+.chip{display:inline-block;padding:6px 12px;border-radius:99px;border:1px solid var(--bd);background:var(--card);margin:3px;cursor:pointer}
+.chip.on{background:var(--pr);color:#fff;border-color:var(--pr)}
+select,input,textarea{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:9px;width:100%;margin:4px 0}
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--bd);display:flex;padding-bottom:env(safe-area-inset-bottom,0px);z-index:6}
+nav button{flex:1;background:none;border:0;padding:9px 2px;color:var(--mu);font-size:11px;cursor:pointer}nav button.on{color:var(--pr);font-weight:700}nav span{display:block;font-size:19px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.opt{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px;margin:6px 0;cursor:pointer}
+.opt.ok{border-color:var(--ok);background:rgba(22,168,112,.15)}.opt.bad{border-color:var(--bad);background:rgba(229,72,77,.15)}
+.mu{color:var(--mu);font-size:13px}.bar{height:10px;background:var(--bd);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--pr),var(--pr2))}
+.timer{font-weight:700;color:var(--pr);font-variant-numeric:tabular-nums}
+.chat{max-height:50vh;overflow:auto}.m{padding:8px 12px;border-radius:14px;margin:6px 0;max-width:88%;white-space:pre-wrap}.m.u{background:var(--pr);color:#fff;margin-left:auto}.m.a{background:var(--bd)}
+.note h4{color:var(--pr);margin:10px 0 4px}.note .fm{background:var(--bd);padding:6px 10px;border-radius:8px;font-family:ui-monospace,monospace;margin:4px 0}
+.cols{display:flex;gap:6px;align-items:flex-end;height:110px}.cols div{flex:1;background:linear-gradient(var(--pr2),var(--pr));border-radius:6px 6px 0 0;min-height:3px;position:relative}
+.cols div b{position:absolute;top:-16px;font-size:10px;left:0;right:0;text-align:center;color:var(--mu)}
+.pill{font-size:12px;padding:2px 8px;border-radius:99px;background:var(--bd)}
+
+.mt{font-family:"Cambria Math","STIX Two Math",Cambria,"Times New Roman",serif;font-size:1.1em;white-space:normal}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .2em;line-height:1.25}
+.fr>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .3em}.fr>span:last-child{padding:0 .3em}
+.sq{white-space:nowrap}.sq>span{border-top:1.5px solid currentColor;padding:0 .15em;margin-left:1px}
+.bg{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 .25em}.bg>span:first-child,.bg>span:last-child{font-size:.72em;min-height:.5em}
+.ss{display:inline-flex;flex-direction:column;justify-content:space-between;font-size:.7em;vertical-align:middle;margin-right:.15em}.fn{font-style:normal}
+.note .fm{font-family:inherit;text-align:center;font-size:1.1em;overflow-x:auto}
+button,.chip,.opt,select,input{min-height:42px}.chip{display:inline-flex;align-items:center}
+main{max-width:1000px}nav{justify-content:center}nav button{max-width:150px}
+@media(min-width:900px){body{font-size:16px}main{padding:22px}.card{padding:20px}nav{max-width:640px;left:50%;right:auto;transform:translateX(-50%);border-radius:18px 18px 0 0;border:1px solid var(--bd)}}
+@media(max-width:380px){body{font-size:14px}.grid{grid-template-columns:repeat(2,1fr)}header h1{font-size:17px}}
+@media(max-width:600px){.cols{gap:3px}}
+html,body{-webkit-text-size-adjust:100%;overflow-x:hidden}body{min-height:100dvh}
+
+#ov{position:fixed;inset:0;background:rgba(10,12,25,.55);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+#ov.on{display:flex}#mb{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:18px;max-width:360px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+#mb h3{margin:0 0 8px}#mb p{margin:0 0 12px;color:var(--tx)}#mb .row{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+#mb input{margin:0 0 4px}
+@media print{header,nav,.np{display:none!important}body{background:#fff;color:#000}.card{border:0}}
+</style></head><body>
+<header><div><h1>📚 StudyHub</h1><small id="sub"></small></div><div><button id="ins" class="btn g s" style="display:none;color:#fff;border-color:#fff;margin-right:6px" onclick="doInstall()">⬇ Install</button><button class="btn g s" style="color:#fff;border-color:#fff" onclick="tog()">🌓</button></div></header>
+<main id="app"></main>
+<div id="ov" onclick="event.target===this&&closeModal(false)"><div id="mb"></div></div>
+<nav id="nav"></nav>
+<script>if(!window.claude){window.claude={use:async n=>{if(n!=='sample')return null;
+window.__usesApiKey=true;window.__apiProvider='Google Gemini';const f=async(inp,o={})=>{let k=localStorage.getItem('sh_key');if(!k){k=await promptPopup('Enter your free Google Gemini API key (get one at aistudio.google.com). Stored only on this device.','AIza...','password');if(!k)throw{code:'not_granted'};localStorage.setItem('sh_key',k)}
+const msgs=typeof inp=='string'?[{role:'user',content:inp}]:inp;
+const contents=msgs.map(m=>({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]}));
+const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+encodeURIComponent(k),{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({contents,generationConfig:{maxOutputTokens:8000}})});
+const d=await r.json();if(!r.ok){const msg=(d.error&&d.error.message)||('HTTP '+r.status);if(r.status==400||r.status==403)localStorage.removeItem('sh_key');throw{code:'error',message:msg}}
+const cand=d.candidates&&d.candidates[0];if(!cand)throw{code:'error',message:(d.promptFeedback&&d.promptFeedback.blockReason)||'No response generated'};
+const t=(cand.content&&cand.content.parts||[]).map(p=>p.text||'').join('');o.onText&&o.onText({text:t});return{text:t}};
+f.json=async(i,o)=>{const r=await f(i,o);return JSON.parse(r.text.replace(/```json|```/g,'').trim())};return f}}}
+if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister()));if(window.caches)caches.keys().then(ks=>ks.forEach(k=>caches.delete(k)));}</script><script>
+const $=s=>document.querySelector(s);
+const K='studyhub_v1';
+let S={cls:null,board:'CBSE',track:'School',dark:null,hist:[],cache:{},notes:{},rem:[],subs:{}};
+try{Object.assign(S,JSON.parse(localStorage.getItem(K)||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+let view='tests',sample=null,T=null,tmr=null,chat=[];
+(async()=>{try{sample=await claude.use('sample')}catch(e){}render()})();
+const online=()=>navigator.onLine&&!!sample;
+function theme(){const r=document.documentElement;if(S.dark===null)r.removeAttribute('data-theme');else r.setAttribute('data-theme',S.dark?'dark':'light')}
+function tog(){const cur=S.dark===null?matchMedia('(prefers-color-scheme:dark)').matches:S.dark;S.dark=!cur;save();theme()}
+theme();
+/* ---------- Curriculum ---------- */
+const CH={
+Physics11:['Units & Measurement','Kinematics','Laws of Motion','Work, Energy & Power','Rotational Motion','Gravitation','Thermodynamics','Oscillations & Waves'],
+Physics12:['Electrostatics','Current Electricity','Magnetism','EMI & AC','Ray & Wave Optics','Dual Nature','Atoms & Nuclei','Semiconductors'],
+Chemistry11:['Mole Concept','Atomic Structure','Periodicity','Chemical Bonding','Thermodynamics','Equilibrium','Redox','Organic Basics'],
+Chemistry12:['Solutions','Electrochemistry','Chemical Kinetics','d & f Block','Coordination Compounds','Haloalkanes','Alcohols & Phenols','Biomolecules'],
+Mathematics11:['Sets & Relations','Trigonometry','Complex Numbers','Permutations & Combinations','Binomial Theorem','Sequences & Series','Straight Lines','Conic Sections','Limits & Derivatives'],
+Mathematics12:['Relations & Functions','Matrices & Determinants','Continuity & Differentiability','Integrals','Differential Equations','Vectors & 3D','Probability','Linear Programming'],
+Biology11:['Cell: Unit of Life','Biomolecules','Cell Cycle','Plant Physiology','Human Physiology','Morphology'],
+Biology12:['Reproduction','Genetics','Molecular Basis of Inheritance','Evolution','Human Health','Biotechnology','Ecology']};
+function subjects(){const c=+S.cls;if(S.track!=='School')return S.track==='NEET'?['Physics','Chemistry','Biology']:['Physics','Chemistry','Mathematics'];
+ if(c<=5)return['Mathematics','English','EVS','Hindi'];if(c<=8)return['Mathematics','Science','Social Science','English','Hindi'];if(c<=10)return['Mathematics','Physics','Chemistry','Biology','History','Geography','English'];return['Physics','Chemistry','Mathematics','Biology','English']}
+function chapters(sub){const k=sub+((S.track!=='School'||S.cls>=11)?(S.track==='School'?S.cls-0:'12').toString().replace(/^(\d+)$/,x=>+x>=12?'12':'11'):'');
+ if(S.track!=='School'){return[...(CH[sub+'11']||[]),...(CH[sub+'12']||[])]}
+ if(CH[sub+S.cls])return CH[sub+S.cls];const key=[S.board,S.cls,sub].join('|');if(S.subs[key])return S.subs[key];return null}
+const lvl=()=>S.track==='JEE Advanced'?'JEE Advanced level (multi-concept, tricky)':S.track==='JEE Main'?'JEE Main level':S.track==='NEET'?'NEET level (NCERT-based)':`${S.board} Class ${S.cls}`;
+/* ---------- AI ---------- */
+async function aiChapters(sub){const j=await sample.json(`List the chapter names of ${S.board} Class ${S.cls} ${sub} as a JSON array of strings (10-16 items). JSON only.`);S.subs[[S.board,S.cls,sub].join('|')]=j;save();}
+async function genQs(sub,ch,n,mode,paper){
+ const p=`Create ${n} multiple-choice questions for ${lvl()}, subject ${sub}, chapter "${ch}". Difficulty: ${mode==='hard'?'high-quality, comprehensive, conceptual and application-heavy':'medium, daily practice'}. Paper #${paper} of a series: use fresh, non-repeating questions. Each has exactly 4 options. Return JSON array: [{"q":"...","o":["A","B","C","D"],"a":0-3 index of correct,"e":"short explanation"}]. Plain text, use unicode for maths. ${MATHNOTE} JSON only.`;
+ return sample.json(p,{modelTier:'default',cache:false});}
+/* ---------- Views ---------- */
+function setup(){$('#app').innerHTML=`<div class="card"><h2>Welcome 👋 Set up your profile</h2>
+<p class="mu">Choose your board and class. You can change this later in Progress.</p>
+<b>Board</b><div>${['CBSE','ICSE'].map(b=>`<span class="chip ${S.board==b?'on':''}" onclick="S.board='${b}';setup()">${b}</span>`).join('')}</div>
+<b>Class</b><div>${[...Array(12)].map((_,i)=>`<span class="chip ${S.cls==i+1?'on':''}" onclick="S.cls=${i+1};S.track='School';setup()">${i+1}</span>`).join('')}</div>
+<b>Competitive exam (optional)</b><div>${['School','JEE Main','JEE Advanced','NEET'].map(t=>`<span class="chip ${S.track==t?'on':''}" onclick="S.track='${t}';if(!S.cls)S.cls=12;setup()">${t}</span>`).join('')}</div>
+<button class="btn" style="margin-top:12px" ${S.cls?'':'disabled'} onclick="save();view='tests';render()">Start learning →</button></div>`}
+function render(){$('#sub').textContent=S.cls?`${S.track==='School'?S.board+' · Class '+S.cls:S.track} · ${navigator.onLine?'🟢 online':'🔴 no internet'}`:'';
+ if(!S.cls){$('#nav').innerHTML='';return setup()}
+ const tabs=[['tests','📝','Tests'],['notes','📖','Notes'],['progress','📊','Progress'],['doubt','🤖','Doubts'],['rem','🔔','Reminders']];
+ $('#nav').innerHTML=tabs.map(t=>`<button class="${view==t[0]?'on':''}" onclick="view='${t[0]}';T=null;clearInterval(tmr);render()"><span>${t[1]}</span>${t[2]}</button>`).join('');
+ ({tests,notes,progress,doubt,rem})[view]()}
+let sel={sub:null,ch:null,mode:'hard'};
+function picker(kind){const subs=subjects();if(!sel.sub||!subs.includes(sel.sub))sel.sub=subs[0];const chs=chapters(sel.sub);if(chs&&!chs.includes(sel.ch))sel.ch=chs[0];
+ return`<div class="card"><b>Subject</b><div>${subs.map(s=>`<span class="chip ${sel.sub==s?'on':''}" onclick="sel.sub='${s}';sel.ch=null;render()">${s}</span>`).join('')}</div>
+ ${chs?`<b>Chapter</b><select onchange="sel.ch=this.value;render()">${chs.map(c=>`<option ${c==sel.ch?'selected':''}>${c}</option>`).join('')}</select>`:
+ `<p class="mu">Chapter list for this subject isn't loaded yet.</p><button class="btn s" ${online()?'':'disabled'} onclick="this.textContent='Loading…';aiChapters(sel.sub).then(render).catch(()=>{popup('Could not load. Try again online.');render()})">Load chapters with AI</button> ${online()?'':'<span class=mu>(needs internet)</span>'}`}</div>`}
+function tests(){if(T)return runTest();
+ const ch=chapters(sel.sub||subjects()[0]);const papers=[...Array(12)].map((_,i)=>i+1);
+ $('#app').innerHTML=picker()+(sel.ch?`<div class="card"><b>Question quality</b><div><span class="chip ${sel.mode=='hard'?'on':''}" onclick="sel.mode='hard';render()">Comprehensive (25 Qs)</span><span class="chip ${sel.mode=='med'?'on':''}" onclick="sel.mode='med';render()">Daily practice (15 Qs)</span></div>
+ <p class="mu">${S.track==='JEE Advanced'?'Advanced-level':S.track==='JEE Main'?'Mains-level':S.track==='NEET'?'NEET-level':'School-level'} MCQs · 12 papers per chapter · 🟢 = already generated · reused instantly, no fresh internet call needed</p>
+ <div class="grid">${papers.map(p=>{const k=ck(p);return`<button class="opt" onclick="start(${p})"><b>Paper ${p}</b><br><span class="mu">${S.cache[k]?'🟢 saved':'⬇ generate'}</span></button>`}).join('')}</div></div>`:'')}
+const ck=p=>[S.board,S.cls,S.track,sel.sub,sel.ch,sel.mode,p].join('|');
+async function start(p,fresh){const k=ck(p),n=sel.mode=='hard'?25:15;let qs=S.cache[k];
+ if(!qs||fresh){
+  if(!online()){popup('You need an internet connection to generate this paper. Connect and try again.','No internet');return render()}
+  $('#app').innerHTML='<div class="card">🤖 Generating questions… (10–40s)</div>';
+  try{qs=await genQs(sel.sub,sel.ch,n,sel.mode,p);S.cache[k]=qs;save()}
+  catch(e){popup('Could not generate this paper. Check your connection and try again.','Generation failed');return render()}
+ }
+ T={p,k,qs,i:0,ans:[],t0:Date.now(),secs:n*90,sub:sel.sub,ch:sel.ch};clearInterval(tmr);tmr=setInterval(tick,1000);render()}
+function tick(){if(!T||T.done)return clearInterval(tmr);const l=T.secs-Math.floor((Date.now()-T.t0)/1000);const e=$('#tm');if(e)e.textContent=fmt(Math.max(l,0));if(l<=0)finish()}
+const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+function runTest(){if(T.done)return result();const q=T.qs[T.i],a=T.ans[T.i];
+ $('#app').innerHTML=`<div class="card"><div style="display:flex;justify-content:space-between"><span class="pill">Q ${T.i+1}/${T.qs.length}</span><span class="timer">⏱ <span id="tm">${fmt(Math.max(T.secs-Math.floor((Date.now()-T.t0)/1000),0))}</span></span></div>
+ <div class="bar" style="margin:8px 0"><i style="width:${(T.i+1)/T.qs.length*100}%"></i></div><h3>${M(q.q)}</h3>
+ ${q.o.map((o,j)=>`<button class="opt ${a==null?'':j==q.a?'ok':j==a?'bad':''}" ${a==null?`onclick="pick(${j})"`:''}>${'ABCD'[j]}. ${M(o)}</button>`).join('')}
+ ${a!=null?`<div class="card" style="background:var(--bg)"><b>${a==q.a?'✅ Correct!':'❌ Incorrect'}</b><br>${M(q.e||'')}</div>`:''}
+ <div style="display:flex;justify-content:space-between"><button class="btn g s" onclick="finish()">Submit test</button>${a!=null?`<button class="btn s" onclick="${T.i<T.qs.length-1?'T.i++;render()':'finish()'}">${T.i<T.qs.length-1?'Next →':'Finish'}</button>`:''}</div></div>`}
+function pick(j){T.ans[T.i]=j;render()}
+function finish(){if(T.done)return;T.done=true;clearInterval(tmr);const c=T.qs.filter((q,i)=>T.ans[i]===q.a).length,att=T.ans.filter(x=>x!=null).length;
+ S.hist.push({d:Date.now(),sub:T.sub,ch:T.ch,c,att,n:T.qs.length,t:Math.floor((Date.now()-T.t0)/1000),cls:S.cls});save();T.res={c,att};render()}
+function result(){const{c,att}=T.res,n=T.qs.length,pc=Math.round(c/n*100);
+ $('#app').innerHTML=`<div class="card" style="text-align:center"><h2>${pc>=80?'🏆 Excellent!':pc>=50?'👍 Good effort':'💪 Keep practising'}</h2><h1 style="font-size:46px;margin:6px">${c}/${n}</h1><p class="mu">${pc}% · attempted ${att} · time ${fmt(Math.floor((Date.now()-T.t0)/1000))}</p>
+ <div id="fb" class="mu">${online()?'':'AI analysis needs internet. Your result is saved.'}</div>
+ <button class="btn" onclick="analyse()" ${online()?'':'disabled'}>🤖 AI performance analysis</button>
+ <button class="btn g" onclick="start(T.p,1)" ${online()?'':'disabled'}>🔄 Reset – new questions</button>
+ <button class="btn g" onclick="T=null;render()">Back</button></div>
+ <div class="card"><b>Review</b>${T.qs.map((q,i)=>`<p>${i+1}. ${M(q.q)}<br><span class="mu">Your: ${T.ans[i]==null?'—':M(q.o[T.ans[i]])} · Correct: <b style="color:var(--ok)">${M(q.o[q.a])}</b></span></p>`).join('')}</div>`}
+async function analyse(){const e=$('#fb');e.textContent='Analysing…';const wrong=T.qs.filter((q,i)=>T.ans[i]!==q.a).map(q=>q.q).slice(0,12);
+ try{const r=await sample(`Student scored ${T.res.c}/${T.qs.length} in ${T.sub} – ${T.ch} (${lvl()}). Wrongly/unanswered questions: ${JSON.stringify(wrong)}. Give concise feedback: weak concepts, 3 revision tips, and next steps. Under 150 words.`);e.style.whiteSpace='pre-wrap';e.style.textAlign='left';e.textContent=r.text}catch(x){e.textContent='Analysis unavailable.'}}
+
+const G={alpha:'α',beta:'β',gamma:'γ',delta:'δ',theta:'θ',lambda:'λ',mu:'μ',pi:'π',sigma:'σ',omega:'ω',phi:'φ',epsilon:'ε',Delta:'Δ',Omega:'Ω',infty:'∞',to:'→',rightarrow:'→',pm:'±',times:'×',cdot:'·',le:'≤',ge:'≥',ne:'≠',approx:'≈',int:'∫',sum:'∑',prod:'∏',partial:'∂',circ:'°',neq:'≠',leq:'≤',geq:'≥',';':' ',',':' ','!':''};
+const FN=['sin','cos','tan','cot','sec','csc','log','ln','lim','det','exp','min','max'];
+function tex(s){s=String(s??'').replace(/\f/g,'\\f').replace(/\t/g,'\\t').replace(/\x08/g,'\\b').replace(/\r/g,'\\r');let i=0;
+ const atom=()=>{const c=s[i];if(c=='{'){i++;const r=seq();i++;return r}
+  if(c=='\\'){let j=i+1;while(/[a-zA-Z]/.test(s[j]||''))j++;if(j==i+1)j++;const n=s.slice(i+1,j);i=j;
+   if(n=='frac'){const a=atom(),b=atom();return `<span class=fr><span>${a}</span><span>${b}</span></span>`}
+   if(n=='sqrt'){return `<span class=sq>√<span>${atom()}</span></span>`}
+   if(FN.includes(n))return `<span class=fn>${n}</span>`;return G[n]??n}
+  i++;return c=='<'?'&lt;':c=='>'?'&gt;':c=='&'?'&amp;':c};
+ const seq=()=>{let o='';while(i<s.length&&s[i]!='}'){let a=atom(),sb='',sp='';const big=/^(<span class=fn>lim<\/span>|∑|∏)$/.test(a);
+  while(s[i]=='^'||s[i]=='_'){const t=s[i++],g=atom();t=='^'?sp=g:sb=g}
+  if(big)a=`<span class=bg><span>${sp}</span><span>${a}</span><span>${sb}</span></span>`;
+  else if(a=='∫'&&(sb||sp))a=`∫<span class=ss><span>${sp}</span><span>${sb}</span></span>`;
+  else{if(sp)a+=`<sup>${sp}</sup>`;if(sb)a+=`<sub>${sb}</sub>`}o+=a}return o};
+ let o='';while(i<s.length){o+=seq();if(s[i]=='}')i++}return o}
+const M=s=>String(s??'').split(/(\$[^$]+\$)/).map(p=>p[0]=='$'&&p.length>2?`<span class=mt>${tex(p.slice(1,-1))}</span>`:esc(p)).join('');
+const MATHNOTE=' Write ALL mathematical expressions in LaTeX inside $...$ so they render as stacked fractions, e.g. $\\lim_{x\\to0}\\frac{\\sin 3x}{x}=3$, $\\frac{a}{b}$, $x^2$, $\\sqrt{x}$, $\\int_0^1 x\\,dx$. Chemical formulas like $H_2O$. Never write fractions as a/b. In JSON output, escape every backslash as a double backslash.';
+let dip=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();dip=e;$('#ins').style.display=''});
+addEventListener('appinstalled',()=>{$('#ins').style.display='none'});
+async function doInstall(){if(dip){dip.prompt();dip=null}}
+if(/iphone|ipad/i.test(navigator.userAgent)&&!navigator.standalone)setTimeout(()=>{const b=$('#ins');b.style.display='';b.onclick=()=>popup('On iPhone/iPad: tap Share → Add to Home Screen.','Install StudyHub')},500);
+
+let _mres=null;
+function closeModal(v){const o=$('#ov');o.classList.remove('on');if(_mres){const r=_mres;_mres=null;r(v)}}
+function showModal({title='',body='',input=null,okText='OK',cancelText=null}){return new Promise(res=>{_mres=res;
+ const box=$('#mb');
+ box.innerHTML=`${title?`<h3>${esc(title)}</h3>`:''}${body?`<p>${esc(body)}</p>`:''}${input!==null?`<input id="mi" placeholder="${esc(input.placeholder||'')}" type="${input.type||'text'}" value="${esc(input.value||'')}">`:''}
+  <div class="row">${cancelText?`<button class="btn g s" onclick="closeModal(false)">${esc(cancelText)}</button>`:''}<button class="btn s" id="mok">${esc(okText)}</button></div>`;
+ $('#ov').classList.add('on');
+ const submit=()=>closeModal(input!==null?($('#mi')?$('#mi').value:''):true);
+ $('#mok').onclick=submit;
+ if(input!==null){const el=$('#mi');setTimeout(()=>el.focus(),50);el.onkeydown=e=>{if(e.key==='Enter')submit()}}
+ })}
+const popup=(body,title='StudyHub')=>showModal({title,body,okText:'OK'});
+const confirmPopup=(body,title='Please confirm')=>showModal({title,body,okText:'Yes',cancelText:'Cancel'});
+const promptPopup=(body,placeholder='',type='text')=>showModal({title:'StudyHub',body,input:{placeholder,type},okText:'Continue',cancelText:'Cancel'});
+
+const esc=s=>String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+/* ---------- Notes ---------- */
+function notes(){const k=[S.board,S.cls,S.track,sel.sub,sel.ch].join('|'),n=S.notes[k];
+ $('#app').innerHTML=picker()+(sel.ch?`<div class="card np"><button class="btn" onclick="genNote('${k}')" ${online()?'':'disabled'}>${n?'🔄 Regenerate':'✨ Generate'} summary notes</button> ${n?'<button class="btn g" onclick="print()">⬇ Export PDF</button>':''}<p class="mu">Notes stay saved in your account on this device. "Export PDF" opens print → choose <i>Save as PDF</i>.</p></div>`:'')+
+ (n?`<div class="card note" id="nt"><h2>${esc(sel.ch)} <span class="mu">· ${esc(sel.sub)}</span></h2><p>${M(n.summary)}</p>
+ <h4>Key points</h4><ul>${n.points.map(p=>`<li>${M(p)}</li>`).join('')}</ul>
+ <h4>Formulas / Definitions</h4>${n.formulas.map(f=>`<div class="fm mt">${f.includes('$')?M(f):tex(f)}</div>`).join('')}
+ <h4>Important illustration</h4><p>${M(n.example)}</p>
+ ${n.svg?`<h4>Diagram</h4><div style="max-width:420px;background:#fff;border-radius:10px;padding:6px">${cleanSvg(n.svg)}</div>`:''}</div>`:'')}
+function cleanSvg(s){return String(s).replace(/<script[\s\S]*?<\/script>/gi,'').replace(/\son\w+="[^"]*"/gi,'').replace(/<foreignObject[\s\S]*?<\/foreignObject>/gi,'')}
+async function genNote(k){const b=event.target;b.textContent='Generating…';try{S.notes[k]=await sample.json(`Write revision notes for ${lvl()}, ${sel.sub}, chapter "${sel.ch}". Return JSON: {"summary":"3-5 sentence summary","points":["6-8 key points"],"formulas":["5-8 key formulas/definitions in plain text"],"example":"one important worked illustration with solution","svg":"a small clean labelled <svg viewBox=\\"0 0 400 240\\"> diagram of a key concept, using dark strokes on transparent background (or empty string if not diagram-able)"}. ${MATHNOTE} Put formulas in the formulas array as LaTeX WITHOUT dollar signs (e.g. \\lim_{x\\to0}\\frac{\\sin x}{x}=1). JSON only.`,{cache:false});save()}catch(e){popup('Could not generate. Try again.')}render()}
+/* ---------- Progress ---------- */
+function apiKeyMasked(){const k=localStorage.getItem('sh_key');if(!k)return 'not set';return k.slice(0,7)+'…'+k.slice(-4)}
+function saveApiKey(){const v=$('#apik').value.trim();if(!v)return popup('Enter a key first, or use Remove key to delete the saved one.');localStorage.setItem('sh_key',v);popup('API key saved on this device.');progress()}
+async function clearApiKey(){if(await confirmPopup('Remove the saved API key from this device?')){localStorage.removeItem('sh_key');popup('API key removed.');progress()}}
+
+function progress(){const H=S.hist,tot=H.reduce((a,h)=>a+h.n,0),cor=H.reduce((a,h)=>a+h.c,0),by={};H.forEach(h=>{(by[h.sub]??={c:0,n:0}).c+=h.c;by[h.sub].n+=h.n});
+ const last=H.slice(-10),days=new Set(H.map(h=>new Date(h.d).toDateString()));let st=0;for(let d=new Date();days.has(d.toDateString());d.setDate(d.getDate()-1))st++;
+ const weak=Object.entries(H.reduce((m,h)=>{const k=h.sub+' – '+h.ch;(m[k]??={c:0,n:0}).c+=h.c;m[k].n+=h.n;return m},{})).map(([k,v])=>[k,v.c/v.n]).sort((a,b)=>a[1]-b[1]).slice(0,3);
+ $('#app').innerHTML=`<div class="card"><b>Profile</b><div class="grid" style="margin-top:6px"><select onchange="S.board=this.value;save();render()">${['CBSE','ICSE'].map(b=>`<option ${b==S.board?'selected':''}>${b}</option>`)}</select><select onchange="S.cls=+this.value;save();render()">${[...Array(12)].map((_,i)=>`<option value="${i+1}" ${S.cls==i+1?'selected':''}>Class ${i+1}</option>`)}</select><select onchange="S.track=this.value;save();render()">${['School','JEE Main','JEE Advanced','NEET'].map(t=>`<option ${t==S.track?'selected':''}>${t}</option>`)}</select></div></div>
+ <div class="grid"><div class="card"><div class="mu">Tests taken</div><h2>${H.length}</h2></div><div class="card"><div class="mu">Accuracy</div><h2>${tot?Math.round(cor/tot*100):0}%</h2></div><div class="card"><div class="mu">Day streak 🔥</div><h2>${st}</h2></div><div class="card"><div class="mu">Questions solved</div><h2>${tot}</h2></div></div>
+ <div class="card"><b>Recent scores (%)</b>${last.length?`<div class="cols" style="margin-top:22px">${last.map(h=>`<div style="height:${Math.max(3,h.c/h.n*100)}%"><b>${Math.round(h.c/h.n*100)}</b></div>`).join('')}</div>`:'<p class="mu">Take a test to see your trend.</p>'}</div>
+ <div class="card"><b>Subject-wise accuracy</b>${Object.entries(by).map(([s,v])=>`<div style="margin:8px 0">${esc(s)} <span class="mu">${Math.round(v.c/v.n*100)}%</span><div class="bar"><i style="width:${v.c/v.n*100}%"></i></div></div>`).join('')||'<p class="mu">No data yet.</p>'}</div>
+ ${weak.length?`<div class="card"><b>⚠ Focus areas</b>${weak.map(w=>`<p>${esc(w[0])} <span class="pill">${Math.round(w[1]*100)}%</span></p>`).join('')}</div>`:''}
+ ${window.__usesApiKey?`<div class="card"><b>🔑 Google Gemini API key</b><p class="mu">Free key from aistudio.google.com powers question generation, notes and the doubt tutor. Stored only in this browser, never uploaded anywhere by StudyHub.</p><p>Current key: <b>${apiKeyMasked()}</b></p><input id="apik" type="password" placeholder="AIza..." autocomplete="off"><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn s" onclick="saveApiKey()">Save key</button>${localStorage.getItem('sh_key')?'<button class="btn g s" onclick="clearApiKey()">Remove key</button>':''}</div><p class="mu">Get a free key: aistudio.google.com → "Get API key" → Create key (no card needed).</p></div>`:''}
+ <button class="btn g s" onclick="resetProgress()">Reset progress</button>`}
+/* ---------- Doubts ---------- */
+function doubt(){$('#app').innerHTML=`<div class="card"><b>🤖 AI Doubt Tutor</b> <span class="mu">for ${S.track==='School'?S.board+' Class '+S.cls:S.track}</span><div class="chat" id="ch">${chat.length?chat.map(m=>`<div class="m ${m.role=='user'?'u':'a'}">${M(m.content)}</div>`).join(''):'<p class="mu">Ask any doubt – concept, numerical, or “explain like I’m 10”.</p>'}</div>
+ ${online()?`<textarea id="q" rows="2" placeholder="Type your doubt…"></textarea><button class="btn" onclick="ask()">Ask</button> <button class="btn g" onclick="chat=[];doubt()">Clear</button>`:'<p class="mu">⚠ No internet connection. Doubt-clearing, question generation and notes all require internet — nothing is available offline.</p>'}</div>`;const c=$('#ch');c.scrollTop=c.scrollHeight}
+async function ask(){const t=$('#q').value.trim();if(!t)return;
+ chat.push({role:'user',content:t});chat.push({role:'assistant',content:'Thinking…'});doubt();
+ const convo=chat.slice(0,-1).slice(-9).map(m=>(m.role=='user'?'Student: ':'Tutor: ')+m.content).join('\n\n');
+ const prompt=`You are a patient tutor for ${lvl()}. Explain step by step, briefly, then end with one check question.${MATHNOTE}\n\nConversation so far:\n${convo}\n\nTutor:`;
+ const upd=x=>{chat[chat.length-1].content=x;const c=$('#ch');if(c&&c.lastChild){c.lastChild.innerHTML=M(x);c.scrollTop=c.scrollHeight}};
+ try{let r;try{r=await sample(prompt,{cache:false,onText:({text})=>upd(text)})}catch(e){if(e&&(e.code=='not_granted'||e.code=='rate_limited'))throw e;r=await sample(prompt,{cache:false})}
+  chat[chat.length-1].content=r.text}
+ catch(e){chat[chat.length-1].content=e&&e.code=='not_granted'?'Permission to use AI was declined. Reload and allow it when asked.':e&&e.code=='rate_limited'?'Too many requests – wait a minute and try again.':'Could not reach the AI: '+((e&&(e.message||e.code))||'unknown error')+'. Check your internet (and API key in the installed app), then retry.'}
+ doubt()}
+/* ---------- Reminders ---------- */
+function rem(){const subs=subjects();const chs=chapters(sel.sub||subs[0])||[];
+ $('#app').innerHTML=`<div class="card"><b>🔔 Schedule a test reminder</b><select id="rs">${subs.map(s=>`<option>${s}</option>`)}</select><input id="rc" placeholder="Chapter (e.g. ${esc(chs[0]||'Chapter 1')})"><input id="rd" type="datetime-local"><button class="btn" onclick="addRem()">Add reminder</button>
+ <p class="mu">Alerts fire while the app is open or in the background tab. Allow notifications when asked.</p></div>
+ ${S.rem.map((r,i)=>`<div class="card" style="display:flex;justify-content:space-between"><div><b>${esc(r.sub)}</b> – ${esc(r.ch)}<br><span class="mu">${new Date(r.at).toLocaleString()} ${r.done?'· ✅ sent':''}</span></div><button class="btn g s" onclick="S.rem.splice(${i},1);save();rem()">✕</button></div>`).join('')}`}
+async function resetProgress(){if(await confirmPopup('Erase all progress?')){S.hist=[];save();render()}}
+async function addRem(){const at=new Date($('#rd').value).getTime();if(!at)return popup('Pick date & time');S.rem.push({sub:$('#rs').value,ch:$('#rc').value||'Full test',at});save();try{if('Notification'in window&&Notification.permission==='default')await Notification.requestPermission()}catch(e){}rem()}
+setInterval(()=>{let ch=false;S.rem.forEach(r=>{if(!r.done&&r.at<=Date.now()){r.done=true;ch=true;const m=`Time for your ${r.sub} test: ${r.ch}`;try{if(Notification.permission==='granted')new Notification('StudyHub reminder',{body:m});else popup(m,'⏰ Reminder')}catch(e){popup(m,'⏰ Reminder')}}});if(ch){save();if(view==='rem')rem()}},15000);
+addEventListener('online',render);addEventListener('offline',render);
+</script></body></html>
