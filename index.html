@@ -56,7 +56,7 @@ html,body{-webkit-text-size-adjust:100%;overflow-x:hidden}body{min-height:100dvh
 window.__usesApiKey=true;window.__apiProvider='Google Gemini';const f=async(inp,o={})=>{let k=localStorage.getItem('sh_key');if(!k){k=await promptPopup('Enter your free Google Gemini API key (get one at aistudio.google.com). Stored only on this device.','AIza...','password');if(!k)throw{code:'not_granted'};localStorage.setItem('sh_key',k)}
 const msgs=typeof inp=='string'?[{role:'user',content:inp}]:inp;
 const contents=msgs.map(m=>({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]}));
-const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+encodeURIComponent(k),{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({contents,generationConfig:{maxOutputTokens:8000}})});
+const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent',{method:'POST',headers:{'content-type':'application/json','x-goog-api-key':k},body:JSON.stringify({contents,generationConfig:{maxOutputTokens:8000}})});
 const d=await r.json();if(!r.ok){const msg=(d.error&&d.error.message)||('HTTP '+r.status);if(r.status==400||r.status==403)localStorage.removeItem('sh_key');throw{code:'error',message:msg}}
 const cand=d.candidates&&d.candidates[0];if(!cand)throw{code:'error',message:(d.promptFeedback&&d.promptFeedback.blockReason)||'No response generated'};
 const t=(cand.content&&cand.content.parts||[]).map(p=>p.text||'').join('');o.onText&&o.onText({text:t});return{text:t}};
